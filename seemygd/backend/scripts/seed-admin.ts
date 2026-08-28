@@ -8,8 +8,17 @@ import { hashPassword } from "better-auth/crypto"
 
 const db = new PrismaClient()
 const SUPER_ADMIN_EMAIL = process.env.SUPER_ADMIN_EMAIL || "brokenspringllc@gmail.com"
-const SUPER_ADMIN_PASSWORD = "Highsc60!"
+// Never hardcode this. It used to be a literal in this file, which put a live
+// admin password in a public repo. Supply it at run time:
+//   SUPER_ADMIN_PASSWORD='...' bun scripts/seed-admin.ts
+const SUPER_ADMIN_PASSWORD = process.env.SUPER_ADMIN_PASSWORD || ""
 const SUPER_ADMIN_NAME = "Super Admin"
+
+if (!SUPER_ADMIN_PASSWORD) {
+  console.error("SUPER_ADMIN_PASSWORD is not set. Re-run as:")
+  console.error("  SUPER_ADMIN_PASSWORD='your-password' bun scripts/seed-admin.ts")
+  process.exit(1)
+}
 
 function randomId(len = 24) {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -55,7 +64,7 @@ async function main() {
   await db.account.create({
     data: { id: randomId(), accountId: userId, providerId: "credential", userId, password: hash },
   })
-  console.log("✅ Super admin created:", SUPER_ADMIN_EMAIL, "/ Highsc60!")
+  console.log("✅ Super admin created:", SUPER_ADMIN_EMAIL)
   await db.$disconnect()
 }
 
