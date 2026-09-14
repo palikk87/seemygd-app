@@ -15,6 +15,18 @@ civics platform), `941-garage-door` (the 941 Garage Door website) and
 `seemygd-site` (the SeeMyGD marketing site on Lovable). If the request is about
 one of those, you are in the wrong repo. Say so and stop.
 
+## One project per session
+
+If another project's repo is on disk in this session, STOP and say so. Do not
+read it, do not grep it, do not cite its config. A cross-project grep is how one
+project's infrastructure gets attributed to another — it has already happened
+once, and this file's Supabase details got read as AYE & NAY's.
+
+This file is the only authority on SeeMyGD's stack, and it says nothing about
+any other project's. If a repo's own CLAUDE.md did not load automatically, READ
+IT before answering anything about hosting, infrastructure or the database. A
+`.env.example` is a template and proves nothing about production.
+
 ## SeeMyGD — the state that matters
 
 Being migrated off the original build platform (Vibecode, out of credits) onto
