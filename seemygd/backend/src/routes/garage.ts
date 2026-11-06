@@ -1,3 +1,4 @@
+import { OPENAI_IMAGE_MODEL } from "../openai-model";
 import { Hono } from "hono";
 import sharp from "sharp";
 import { MANUFACTURERS, STYLES, SwapRequestFieldsSchema } from "../types";
@@ -346,14 +347,14 @@ garageRouter.post("/swap", async (c) => {
     `Preserve all original lighting, shadows, and ambient light — only the door surface itself reflects new lighting.`,
   ].join(" ");
 
-  // Forward to OpenAI image edit API (gpt-image-1)
+  // Forward to OpenAI image edit API
   const openaiForm = new FormData();
   openaiForm.append("image", pngBlob, "house.png");
   if (maskBlob) {
     openaiForm.append("mask", maskBlob, "mask.png");
   }
   openaiForm.append("prompt", prompt);
-  openaiForm.append("model", "gpt-image-1");
+  openaiForm.append("model", OPENAI_IMAGE_MODEL);
   openaiForm.append("n", "1");
   openaiForm.append("size", "1024x1024");
   openaiForm.append("quality", "low");

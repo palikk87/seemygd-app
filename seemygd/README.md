@@ -21,7 +21,7 @@ Upload a photo of your home and instantly preview real garage door styles from t
 | Database | Supabase Postgres (via Prisma) |
 | Auth | Better Auth (email + password) |
 | Storage | Supabase Storage — company logos & hero banners |
-| AI | OpenAI `gpt-image-1` |
+| AI | OpenAI `gpt-image-2.5-sunburst` |
 | Payments | Square subscriptions |
 | Email | Resend |
 | Domain | seemygd.com on Lovable, embedding the tool |
@@ -35,7 +35,7 @@ auth cookies working exactly as before.
 - **Photo upload or camera capture** — drag & drop, file picker, or live camera
 - **Curated real-brand catalog** — signature styles from Clopay, C.H.I., Amarr, Wayne Dalton, Haas
 - **Style picker** — filter by manufacturer, browse 17 signature doors across modern, carriage, traditional, and contemporary categories
-- **AI photorealistic swap** — OpenAI `gpt-image-1` image edit with a constrained prompt that keeps the rest of the house unchanged
+- **AI photorealistic swap** — OpenAI `gpt-image-2.5-sunburst` image edit with a constrained prompt that keeps the rest of the house unchanged
 - **Before / after slider** — drag to compare your original photo against the new door
 - **Share & download** — save the preview or share it via the native share sheet
 
@@ -45,7 +45,7 @@ auth cookies working exactly as before.
 | --- | --- |
 | Frontend | React 18, Vite, Tailwind v3, shadcn/ui, React Query, Sonner toasts |
 | Backend | Bun runtime, Hono, Zod validation |
-| AI | OpenAI `gpt-image-1` (images/edits) and `gpt-4o` vision, called directly with `OPENAI_API_KEY` |
+| AI | OpenAI `gpt-image-2.5-sunburst` (images/edits) and `gpt-4o-mini` vision, called directly with `OPENAI_API_KEY`. Model id is overridable via `OPENAI_IMAGE_MODEL`. |
 
 ### Endpoints
 
@@ -56,7 +56,7 @@ auth cookies working exactly as before.
 - `PUT  /api/companies/me` — (auth) update branding, `vanitySlug`, and `customDomain` (Growth only)
 - `GET  /api/companies/preview-branding?site=&expires=&sig=` — **public, admin-generated preview.** Validates a signed, self-expiring token, scrapes the given site's branding live, and returns it shaped like `/branding` with `subscriptionStatus: "active"`. Nothing is stored; after `expires` it returns 410.
 - `POST /api/admin/preview-url` — (admin) generate an admin-only sales preview link for a prospect's website: `/preview?site=<host>&expires=<epochMs>&sig=<hmac>`, valid 48h. Clients cannot reach this route.
-- `POST /api/companies/me/upload-image` — (auth) upload a `logo` or `hero` image. **Hero (background) photos are automatically re-rendered by `gpt-image-1` at a clean 1536×1024 banner ratio with sharpened resolution & clarity** so they don't look stretched/blurry when scaled to `cover` the visualizer banner. Falls back to the original if AI is unavailable.
+- `POST /api/companies/me/upload-image` — (auth) upload a `logo` or `hero` image. **Hero (background) photos are automatically re-rendered by `gpt-image-2.5-sunburst` at a clean 1536×1024 banner ratio with sharpened resolution & clarity** so they don't look stretched/blurry when scaled to `cover` the visualizer banner. Falls back to the original if AI is unavailable.
 
 ## Repair Estimator (second tool)
 

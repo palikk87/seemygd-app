@@ -7,6 +7,7 @@ import { VanitySlugSchema, RESERVED_SLUGS } from "../types"
 import { verifyPreview } from "../preview-token"
 import { scrapeBrand } from "./onboard"
 import { saveBrandingImage, contentTypeForExt } from "../storage"
+import { OPENAI_IMAGE_MODEL } from "../openai-model"
 
 const companies = new Hono()
 
@@ -24,7 +25,7 @@ function hostToName(site: string): string {
 // Re-render an uploaded hero/background photo with AI so it looks crisp when
 // stretched to fill the visualizer banner. The banner uses `background-size: cover`,
 // so a low-res or oddly-shaped source ends up blurry/stretched. We send the photo
-// to gpt-image-1 at a clean landscape banner ratio and ask it to sharpen the
+// to the OpenAI image model at a clean landscape banner ratio and ask it to sharpen the
 // resolution & clarity while preserving the exact scene. Returns the enhanced
 // PNG buffer, or null if AI is unavailable/fails (caller keeps the original).
 async function enhanceHeroImage(input: Buffer): Promise<Buffer | null> {
@@ -47,7 +48,7 @@ async function enhanceHeroImage(input: Buffer): Promise<Buffer | null> {
     const form = new FormData()
     form.append("image", pngBlob, "hero.png")
     form.append("prompt", prompt)
-    form.append("model", "gpt-image-1")
+    form.append("model", OPENAI_IMAGE_MODEL)
     form.append("n", "1")
     form.append("size", "1536x1024")
     form.append("quality", "high")
